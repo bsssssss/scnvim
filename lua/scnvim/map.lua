@@ -1,6 +1,6 @@
 --- Helper object to define a keymap.
 --- Usually used exported from the scnvim module
----@module scnvim.map
+---@module 'scnvim.map'
 ---@see scnvim.editor
 ---@see scnvim
 ---@usage map('module.fn', { modes })

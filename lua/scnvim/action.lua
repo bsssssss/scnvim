@@ -25,7 +25,7 @@
 ---
 --- * on_open
 ---
----@module scnvim.action
+---@module 'scnvim.action'
 local action = {}
 
 local _id = 1000
@@ -35,9 +35,15 @@ local function get_next_id()
   return next
 end
 
+---@class Action : function
+---@field default_fn function
+---@field _default function
+---@field appended table[]
+---@operator call(...): any
+
 --- Create a new action.
----@param fn The default function to call.
----@return The action.
+---@param fn function The default function to call.
+---@return Action # The action.
 function action.new(fn)
   local self = setmetatable({}, {
     __index = action,
@@ -61,7 +67,7 @@ end
 --- If several extension replace the same function then "last one wins".
 --- Consider using `action:append` if your extensions doesn't need to replace the
 --- default behaviour.
----@param fn The replacement function. The signature and return values *must*
+---@param fn function The replacement function. The signature and return values *must*
 --- match the function to be replaced.
 function action:replace(fn)
   self.default_fn = fn
@@ -76,8 +82,8 @@ end
 --- The appended function will run after the default function and will receive
 --- the same input arguments. There can be several appended functions and they
 --- will be executed in the order they were appended.
----@param fn The function to append.
----@return An integer ID. Use this ID if you need to remove the appended action.
+---@param fn function The function to append.
+---@return integer # An integer ID. Use this ID if you need to remove the appended action.
 function action:append(fn)
   local id = get_next_id()
   self.appended[#self.appended + 1] = {
@@ -88,7 +94,7 @@ function action:append(fn)
 end
 
 --- Remove an appended action.
----@param id ID of the action to remove.
+---@param id integer ID of the action to remove.
 function action:remove(id)
   for i, obj in ipairs(self.appended) do
     if obj.id == id then

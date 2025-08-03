@@ -1,7 +1,7 @@
 --- UDP
 --- Receive data from sclang as UDP datagrams.
 --- The data should be in the form of JSON formatted strings.
----@module scnvim.udp
+---@module 'scnvim.udp'
 ---@local
 
 local uv = vim.loop

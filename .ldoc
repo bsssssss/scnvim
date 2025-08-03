@@ -3,3 +3,4 @@ title = 'scnvim reference'
 file = 'lua'
 dir = 'docs'
 format = 'markdown'
+not_luadoc = true

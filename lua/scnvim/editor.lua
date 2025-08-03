@@ -1,6 +1,6 @@
 --- Connects nvim and the sclang process.
 --- Applies autocommands and forwards text to be evaluated to the sclang process.
----@module scnvim.editor
+---@module 'scnvim.editor'
 
 local sclang = require 'scnvim.sclang'
 local config = require 'scnvim.config'
@@ -16,14 +16,15 @@ local M = {}
 
 --- Action that runs to highlight buffer content sent to sclang.
 --- The default function depends on the user config.
----@param start Start range ({row, col} zero indexed)
----@param finish End range ({row, col} zero indexed)
+---@param start {} Start range ({row, col} zero indexed)
+---@param finish {} End range ({row, col} zero indexed)
+---@diagnostic disable-next-line: unused-local
 M.on_highlight = action.new(function(start, finish) end) -- luacheck: ignore
 
 --- Action that runs when buffer content is sent to sclang.
 --- The default is to send the content as a string to sclang.
----@param lines Table with the lines.
----@param callback Optional callback function.
+---@param lines table Table with the lines.
+---@param callback function? Optional callback function.
 M.on_send = action.new(function(lines, callback)
   if callback then
     lines = callback(lines)
@@ -35,17 +36,17 @@ end)
 ---@section functions
 
 --- Get a range of lines.
----@param lstart Start index.
----@param lend  End index.
----@return A table with strings.
+---@param lstart integer Start index.
+---@param lend integer End index.
+---@return table # A table with strings.
 local function get_range(lstart, lend)
   return api.nvim_buf_get_lines(0, lstart - 1, lend, false)
 end
 
 --- Flash once.
----@param start Start range.
----@param finish End range.
----@param delay How long to highlight the text.
+---@param start {} Start range.
+---@param finish {} End range.
+---@param delay integer How long to highlight the text.
 local function flash_once(start, finish, delay)
   local ns = api.nvim_create_namespace 'scnvim_flash'
   vim.highlight.range(0, ns, 'SCNvimEval', start, finish, { inclusive = true })
@@ -55,8 +56,8 @@ local function flash_once(start, finish, delay)
 end
 
 --- Apply a flashing effect to a text region.
----@param start starting position (tuple {line,col} zero indexed)
----@param finish finish position (tuple {line,col} zero indexed)
+---@param start {} starting position (tuple {line,col} zero indexed)
+---@param finish {} finish position (tuple {line,col} zero indexed)
 ---@local
 local function flash_region(start, finish)
   local duration = config.editor.highlight.flash.duration
@@ -84,8 +85,8 @@ local function flash_region(start, finish)
 end
 
 --- Apply a fading effect to a text region.
----@param start starting position (tuple {line,col} zero indexed)
----@param finish finish position (tuple {line,col} zero indexed)
+---@param start {} starting position (tuple {line,col} zero indexed)
+---@param finish {} finish position (tuple {line,col} zero indexed)
 ---@local
 local function fade_region(start, finish)
   local lstart = start[1]
@@ -162,7 +163,7 @@ local function apply_keymaps(mappings)
 end
 
 --- Create a highlight command
----@return The highlight ex command string
+---@return string # The highlight ex command string
 ---@local
 local function create_hl_group()
   local color = config.editor.highlight.color
@@ -288,8 +289,8 @@ function M.setup()
 end
 
 --- Get the current line and send it to sclang.
----@param cb An optional callback function.
----@param flash Highlight the selected text
+---@param cb function An optional callback function.
+---@param flash boolean Highlight the selected text
 function M.send_line(cb, flash)
   flash = flash == nil and true or flash
   local linenr = api.nvim_win_get_cursor(0)[1]
@@ -303,8 +304,8 @@ function M.send_line(cb, flash)
 end
 
 --- Get the current block of code and send it to sclang.
----@param cb An optional callback function.
----@param flash Highlight the selected text
+---@param cb function An optional callback function.
+---@param flash boolean Highlight the selected text
 function M.send_block(cb, flash)
   flash = flash == nil and true or flash
   local lstart, lend = unpack(vim.fn['scnvim#editor#get_block']())
@@ -325,8 +326,8 @@ function M.send_block(cb, flash)
 end
 
 --- Send a visual selection.
----@param cb An optional callback function.
----@param flash Highlight the selected text
+---@param cb function An optional callback function.
+---@param flash boolean Highlight the selected text
 function M.send_selection(cb, flash)
   flash = flash == nil and true or flash
   local ret = vim.fn['scnvim#editor#get_visual_selection']()

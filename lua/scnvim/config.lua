@@ -1,10 +1,11 @@
 --- Default configuration.
 --- Provides fallback values not specified in the user config.
----@module scnvim.config
+---@module 'scnvim.config'
 
+---@class ScnvimConfig
 --- table
 ---@table default
----@field ensure_installed (default: true) If installed once, this can be set to false to improve startup time.
+---@field ensure_installed boolean (default: true) If installed once, this can be set to false to improve startup time.
 local default = {
   ensure_installed = true,
 
@@ -194,7 +195,7 @@ setmetatable(M, {
 })
 
 --- Merge the user configuration with the default values.
----@param config The user configuration
+---@param config {} The user configuration
 function M.resolve(config)
   config = config or {}
   M.config = vim.tbl_deep_extend('keep', config, default)

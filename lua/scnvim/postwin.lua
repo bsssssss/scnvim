@@ -1,6 +1,6 @@
 --- Post window.
 --- The interpreter's post window.
----@module scnvim.postwin
+---@module 'scnvim.postwin'
 
 local path = require 'scnvim.path'
 local config = require 'scnvim.config'
@@ -13,6 +13,7 @@ local M = {}
 
 --- Action for when the post window opens.
 --- The default is to apply the post window settings.
+--- @type Action
 M.on_open = action.new(function()
   vim.opt_local.buftype = 'nofile'
   vim.opt_local.bufhidden = 'hide'
@@ -40,14 +41,14 @@ end)
 ---@section functions
 
 --- Test that the post window buffer is valid.
----@return True if the buffer is valid otherwise false.
+---@return boolean # True if the buffer is valid otherwise false.
 ---@private
 local function buf_is_valid()
   return M.buf and api.nvim_buf_is_loaded(M.buf)
 end
 
 --- Create a scratch buffer for the post window output.
----@return A buffer handle.
+---@return integer # A buffer handle.
 ---@private
 local function create()
   if buf_is_valid() then
@@ -137,7 +138,7 @@ local function open_split()
 end
 
 --- Open the post window.
----@return A window handle.
+---@return integer # A window handle.
 function M.open()
   if M.is_open() then
     return M.win
@@ -155,7 +156,7 @@ function M.open()
 end
 
 --- Test if the window is open.
----@return True if open otherwise false.
+---@return boolean # True if open otherwise false.
 function M.is_open()
   return M.win ~= nil and api.nvim_win_is_valid(M.win)
 end
@@ -207,7 +208,7 @@ function M.focus()
 end
 
 --- Print a line to the post window.
----@param line The line to print.
+---@param line string The line to print.
 function M.post(line)
   if not buf_is_valid() then
     return
