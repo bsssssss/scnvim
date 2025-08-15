@@ -268,6 +268,18 @@ local function create_autocmds()
     pattern = '*',
     command = hl_cmd,
   })
+  if config.editor.auto_start then
+    api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+      group = id,
+      desc = 'Start sclang automatically',
+      pattern = '*.scd',
+      callback = function()
+        if not sclang.is_running() then
+          sclang.start()
+        end
+      end,
+    })
+  end
 end
 
 --- Setup function.
