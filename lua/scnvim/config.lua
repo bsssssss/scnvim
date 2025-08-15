@@ -112,6 +112,7 @@ local default = {
   ---@field force_ft_supercollider (default: true) Treat .sc files as supercollider.
   --- If false, use nvim's native ftdetect.
   editor = {
+    auto_start = true,
     force_ft_supercollider = true,
 
     --- table
