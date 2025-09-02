@@ -1,0 +1,14 @@
+{
+    "diagnostics.disable": [
+        "doc-field-no-class",
+        "undefined-doc-name",
+        "return-type-mismatch",
+        "need-check-nil",
+        "assign-type-mismatch",
+        "undefined-field",
+        "cast-local-type",
+        "param-type-mismatch",
+        "luadoc-miss-module-name",
+        "missing-return-value"
+    ]
+}
