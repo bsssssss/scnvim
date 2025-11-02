@@ -32,7 +32,7 @@ M.on_open = action.new(function()
   end
   vim.opt_local.colorcolumn = ''
   vim.opt_local.foldcolumn = '0'
-  vim.opt_local.winfixwidth = true
+  vim.opt_local.winfixwidth = false
   vim.opt_local.tabstop = 4
 end)
 
