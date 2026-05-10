@@ -132,6 +132,9 @@ end
 function M.link(source, destination)
   if not uv.fs_stat(destination) then
     uv.fs_symlink(source, destination, { dir = true, junction = true })
+  else
+    M.unlink(destination)
+    uv.fs_symlink(source, destination, { dir = true, junction = true })
   end
 end
 
