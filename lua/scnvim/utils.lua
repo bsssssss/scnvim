@@ -28,7 +28,9 @@ end
 ---@param word The word to match
 ---@return True if word matches, otherwise false
 function M.str_match_exact(input, word)
-  return string.find(input, '%f[%a]' .. word .. '%f[%A]') ~= nil
+  local s = string.find(input, '[%-%*%.]') -- '?' is always first -> prefix end index will be one of those
+  local sub = string.sub(input, s + 1)     -- input without prefix
+  return sub == word
 end
 
 --- Print a highlighted message to the command line.

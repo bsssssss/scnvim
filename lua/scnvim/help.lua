@@ -176,6 +176,7 @@ local function find_methods(name, target_dir)
         local destpath = _path.concat(path, value.path .. '.txt')
         table.insert(results, {
           filename = destpath,
+          -- TODO: can be '%s(anything)' if operator method
           text = string.format('.%s', name),
         })
       end
