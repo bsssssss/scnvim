@@ -10,6 +10,7 @@ local widgets = {
 ---@param str The server status string.
 function M.set_server_status(str)
   widgets.statusline = str
+  vim.cmd('redrawstatus')
 end
 
 --- Get the server status.

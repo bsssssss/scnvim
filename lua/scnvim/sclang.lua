@@ -109,6 +109,7 @@ local function on_exit(code, signal)
   safe_close(M.proc)
   M.on_exit(code, signal)
   M.proc = nil
+  require('scnvim.statusline').set_server_status('')
 end
 
 local function start_process()
@@ -150,7 +151,7 @@ end
 --- Start polling the server status
 ---@local
 function M.poll_server_status()
-  local cmd = string.format('SCNvim.updateStatusLine(%d)', config.statusline.poll_interval)
+  local cmd = string.format('SCNvim.updateStatusLine(%f)', config.statusline.poll_interval)
   M.send(cmd, true)
 end
 
