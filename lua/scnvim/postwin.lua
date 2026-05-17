@@ -54,8 +54,8 @@ local function create()
     return M.buf
   end
   local buf = api.nvim_create_buf(true, true)
-  api.nvim_buf_set_option(buf, 'filetype', 'scnvim')
-  api.nvim_buf_set_name(buf, '[scnvim]')
+  api.nvim_set_option_value('filetype', 'scnvim', { buf = buf })
+  api.nvim_buf_set_name(buf, "[scnvim]")
   M.buf = buf
   return buf
 end
