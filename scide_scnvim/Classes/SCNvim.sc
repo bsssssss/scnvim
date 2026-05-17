@@ -33,10 +33,10 @@ SCNvim {
             var server = Server.default;
             var cmd;
             if (server.serverRunning) {
-                peakCPU = server.peakCPU.trunc(0.01);
-                avgCPU = server.avgCPU.trunc(0.01);
-                numUGens = "%u".format(server.numUGens);
-                numSynths = "%s".format(server.numSynths);
+                peakCPU = server.peakCPU.trunc(0.01).asString().padLeft(6, " ");
+                avgCPU = server.avgCPU.trunc(0.01).asString().padLeft(7, " ");
+                numUGens = "%u".format(server.numUGens).padLeft(6, " ");
+                numSynths = "%s".format(server.numSynths).padLeft(6, " ");
                 serverStatus = "%\\% %\\% % %".format(
                     peakCPU, avgCPU, numUGens, numSynths
                 );
