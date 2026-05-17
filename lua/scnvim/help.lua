@@ -216,6 +216,11 @@ function M.open_help_for(subject)
     return
   end
 
+  if subject == '' then
+    sclang.send('HelpBrowser.goHome', true)
+    return
+  end
+
   if not config.documentation.cmd then
     local cmd = string.format('HelpBrowser.openHelpFor("%s")', subject)
     sclang.send(cmd, true)

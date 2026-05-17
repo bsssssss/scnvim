@@ -26,11 +26,12 @@ return function()
     sclang.generate_assets(on_done)
   end, 'Generate syntax highlightning and snippets')
 
-  local options = { nargs = 1, desc = 'Open help for subject' }
-  local open_help = function(tbl)
+  vim.api.nvim_buf_create_user_command(0, 'SCNvimHelp', function(tbl)
     help.open_help_for(tbl.args)
-  end
-  vim.api.nvim_buf_create_user_command(0, 'SCNvimHelp', open_help, options)
+  end, {
+    nargs = '?',
+    desc = 'Open help homepage or subject if provided',
+  })
 
   vim.api.nvim_buf_create_user_command(0, 'SCNvimExt', extensions.run_user_command, {
     nargs = '+',
