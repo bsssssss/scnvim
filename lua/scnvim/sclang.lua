@@ -188,6 +188,14 @@ function M.send(data, silent)
   end
 end
 
+function M.load(filepath)
+  if not M.is_running() then
+    vim.notify('sclang not started', vim.log.levels.ERROR)
+    return
+  end
+  M.send(string.format("load(\"%s\")",vim.fn.expand(filepath)), true)
+end
+
 --- Evaluate a SuperCollider expression and return the result to lua.
 ---@param expr The expression to evaluate.
 ---@param cb The callback with a single argument that contains the result.
