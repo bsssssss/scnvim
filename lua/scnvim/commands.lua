@@ -39,6 +39,13 @@ return function()
     desc = 'Run an extension command',
   })
 
+  add_command('SCNvimLoad', function(tbl)
+    sclang.load(tbl.args)
+  end, {
+    nargs = 1,
+    desc = 'Load a supercollider file',
+  })
+
   -- deprecated
   add_command('SCNvimTags', function()
     print '[scnvim] SCNvimTags is deprecated. Please use SCNvimGenerateAssets.'
