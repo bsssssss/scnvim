@@ -19,23 +19,10 @@ local cmd_char = {
 --- Utilities
 
 local on_stdout = function()
-  local stack = { '' }
   return function(err, data)
     assert(not err, err)
     if data then
-      table.insert(stack, data)
-      local str = table.concat(stack, '')
-      local got_line = vim.endswith(str, '\n')
-      if got_line then
-        local lines = vim.split(str, '\n')
-        if #lines > 0 and lines[#lines] == '' then
-          table.remove(lines)
-        end
-        for _, line in pairs(lines) do
-          M.on_output(line)
-        end
-        stack = { '' }
-      end
+      M.on_output(data)
     end
   end
 end
@@ -65,9 +52,9 @@ end)
 
 --- Action that runs on sclang output.
 --- The default is to print a line to the post window.
----@param line A complete line of sclang output.
-M.on_output = action.new(function(line)
-  postwin.post(line)
+---@param data some sclang output text data.
+M.on_output = action.new(function(data)
+  postwin.post(data)
 end)
 
 --- Functions
@@ -109,6 +96,7 @@ local function on_exit(code, signal)
   safe_close(M.proc)
   M.on_exit(code, signal)
   M.proc = nil
+  require('scnvim.statusline').set_server_status ''
 end
 
 local function start_process()

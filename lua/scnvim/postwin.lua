@@ -54,7 +54,7 @@ local function create()
     return M.buf
   end
   local buf = api.nvim_create_buf(true, true)
-  api.nvim_buf_set_option(buf, 'filetype', 'scnvim')
+  api.nvim_set_option_value('filetype', 'scnvim', { buf = buf })
   api.nvim_buf_set_name(buf, '[scnvim]')
   M.buf = buf
   return buf
@@ -206,9 +206,9 @@ function M.focus()
   vim.fn.win_gotoid(win)
 end
 
---- Print a line to the post window.
----@param line The line to print.
-function M.post(line)
+--- Print to the post window.
+---@param data A string to print.
+function M.post(data)
   if not buf_is_valid() then
     return
   end
@@ -216,7 +216,7 @@ function M.post(line)
   local auto_toggle_error = config.postwin.auto_toggle_error
   local scrollback = config.postwin.scrollback
 
-  local found_error = line:match '^ERROR'
+  local found_error = data:match '^ERROR'
   if found_error and auto_toggle_error then
     if not M.is_open() then
       M.open()
@@ -224,9 +224,25 @@ function M.post(line)
   end
 
   if path.is_windows then
-    line = line:gsub('\r', '')
+    data = data:gsub('\r', '')
   end
-  vim.api.nvim_buf_set_lines(M.buf, -1, -1, true, { line })
+
+  local last_line = vim.api.nvim_buf_get_lines(M.buf, -2, -1, true)[1] -- last line as a string
+  local row = vim.api.nvim_buf_line_count(M.buf) - 1
+  local col = last_line:len()
+
+  -- for each character in data string
+  for i = 1, #data do
+    local c = data:sub(i, i)
+    if c == '\n' then -- insert an empty line
+      vim.api.nvim_buf_set_lines(M.buf, -1, -1, true, { '' })
+      row = row + 1
+      col = 0
+    else -- insert a character at row/col
+      vim.api.nvim_buf_set_text(M.buf, row, col, row, col, { c })
+      col = col + 1
+    end
+  end
 
   local num_lines = vim.api.nvim_buf_line_count(M.buf)
   if scrollback > 0 and num_lines > scrollback then
