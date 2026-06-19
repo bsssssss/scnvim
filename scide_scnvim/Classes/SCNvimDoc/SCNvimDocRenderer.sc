@@ -227,7 +227,7 @@ SCNvimDocRenderer : SCDocHTMLRenderer {
 			},
 			\CODEBLOCK, {
                 stream << "<pre><code>"
-                << ">\n"
+                << ">supercollider\n"
 				<< this.escapeSpecialChars(node.text)
                 << "</code></pre>";
 			},
