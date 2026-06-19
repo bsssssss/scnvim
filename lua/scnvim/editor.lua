@@ -240,7 +240,7 @@ local function create_autocmds()
       end,
     })
   end
-  if config.editor.signature.auto then
+  if config.editor.signature.show and config.editor.signature.auto then
     api.nvim_create_autocmd('InsertCharPre', {
       group = id,
       desc = 'Insert mode function signature',

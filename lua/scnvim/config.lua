@@ -149,6 +149,7 @@ local default = {
     ---@field auto (default: true) Show function signatures while typing in insert mode
     ---@field config
     signature = {
+      show = true,
       float = true,
       auto = true,
       config = {}, -- TODO: can we use vim.diagnostic instead..?
