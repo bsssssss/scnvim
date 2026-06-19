@@ -95,6 +95,9 @@ local function ins_extract_object()
 end
 
 local function show_signature(object)
+  if not config.editor.signature.show then
+    return
+  end
   if object ~= '' then
     local float = config.editor.signature.float
     local float_conf = config.editor.signature.config
