@@ -67,6 +67,7 @@ local default = {
   ---@field keymaps (default: true) If true apply user keymaps to the help
   --- window. Use a table value for explicit mappings.
   postwin = {
+    keep_open = true,
     highlight = true,
     auto_toggle_error = true,
     scrollback = 5000,

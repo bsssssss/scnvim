@@ -47,7 +47,9 @@ end)
 ---@param code The exit code
 ---@param signal Terminating signal
 M.on_exit = action.new(function(code, signal) -- luacheck: no unused args
-  postwin.destroy()
+  if not config.postwin.keep_open then
+      postwin.destroy()
+  end
 end)
 
 --- Action that runs on sclang output.
