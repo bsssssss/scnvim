@@ -30,13 +30,6 @@ syn region result start=/^->/ end=/\n/
 " Using Log.quark
 syn match logger /^\[\w*\]/
 
-" Quoted text
-syn match singleQuote /'.*'/
-syn match doubleQuote /".*"/
-
-" Number
-syn match num /[0-9]\.\?[0-9]*/
-
 """""""""""""""""""
 " Error and warning messages
 """""""""""""""""""
@@ -77,8 +70,4 @@ hi def link protectedcallstack WarningMsg
 hi def link logger Bold
 hi def link unittestPass String
 
-hi def link result String
-
-hi singleQuote gui=bold
-hi doubleQuote gui=bold
-hi num gui=bold
+hi def link result OkMsg
